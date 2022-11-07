@@ -1,12 +1,17 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import models.Task;
+import utils.DBUtil;
 
 /**
  * Servlet implementation class IndexServlet
@@ -26,9 +31,17 @@ public class IndexServlet extends HttpServlet {
         /**
          * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
          */
-        protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-                // TODO Auto-generated method stub
-                response.getWriter().append("Served at: ").append(request.getContextPath());
-        }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //EntityManagerのオブジェクトを生成
+        EntityManager em = DBUtil.createEntityManager();
+
+        //Task.javaでJPQLにつけた名前「getAllTasks」をcreateNamedQueryメソッドの引数に指定することでDBへの問い合わせを実行
+        //上記の問い合わせ結果をgetResultList()メソッドでリスト形式で取得・・・DBに保存されたデータはHibernateによって自動でMessageクラスのオブジェクトになってこのリストの中に格納される
+        List<Task> tasks = em.createNamedQuery("getAllTasks", Task.class).getResultList();
+        response.getWriter().append(Integer.valueOf(tasks.size()).toString());
+
+        em.close();
+    }
 
 }
