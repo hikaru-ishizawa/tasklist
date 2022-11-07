@@ -1,3 +1,4 @@
+//DTO
 package models;
 
 import java.sql.Timestamp;
@@ -43,6 +44,10 @@ public class Task {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Timestamp getCreated_at() {
         return created_at;
     }
@@ -67,9 +72,7 @@ public class Task {
         this.content = content;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+
 
 
 }
