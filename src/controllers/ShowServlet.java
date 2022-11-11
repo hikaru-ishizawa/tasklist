@@ -34,7 +34,7 @@ public class ShowServlet extends HttpServlet {
         EntityManager em = DBUtil.createEntityManager();
 
         // 該当のIDのタスク1件のみをデータベースから取得
-        Task t = (Task) em.find(Task.class, Integer.parseInt(request.getParameter("id")));
+        Task t = em.find(Task.class, Integer.parseInt(request.getParameter("id")));
 
         em.close();
 
